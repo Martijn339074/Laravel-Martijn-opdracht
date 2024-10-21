@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\JobController;
+use App\http\Controllers\RegisterUserController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'home'); // Static home page route
-Route::view('/contact', 'contact'); // Static contact page route
+Route::view('/', 'home'); 
+Route::view('/contact', 'contact'); 
 
-// Define the Job resource routes
 Route::resource('jobs', JobController::class);
+
+Route::get('/register', [RegisterUserController::class, 'create']);
