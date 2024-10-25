@@ -32,6 +32,10 @@
                                 <x-nav-link href="/jobs" :active="request()->is('jobs')">Jobs</x-nav-link>
                                 <x-nav-link href="/contact" :active="request()->is('contact')" >Contact</x-nav-link>
                                 <x-nav-link href="/jobs/create" :active="request()->is('create')">Create Job</x-nav-link>
+                                @guest
+                                <x-nav-link href="/register" :active="request()->is('register')">Register</x-nav-link>
+                                <x-nav-link href="/login" :active="request()->is('login')">Log In</x-nav-link>
+                                @endguest
                             </div>
                         </div>                        
                     </div>
