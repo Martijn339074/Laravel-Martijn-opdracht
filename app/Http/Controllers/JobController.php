@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\JobPosted;
 use App\Models\Job;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class JobController extends Controller
 {
@@ -28,11 +32,18 @@ class JobController extends Controller
             // Temporarily removed employer_id from validation
         ]);
 
+
+
         // Temporarily hard-coding the employer_id
         // TODO: Remove this hard-coding and implement proper employer selection
         $validatedData['employer_id'] = 1; // Assuming 1 is a valid employer_id in your database
 
-        Job::create($validatedData);
+        $job = Job::create($validatedData);
+        
+        Mail::to($job->employer->user)->queue(
+            new JobPosted($job)
+        );
+
 
         return redirect('/jobs')->with('success', 'Job created successfully!');
     }
@@ -44,8 +55,10 @@ class JobController extends Controller
 
     public function edit(Job $job)
     {
+
         return view('jobs.edit', ['job' => $job]);
     }
+
 
     public function update(Request $request, Job $job)
     {
